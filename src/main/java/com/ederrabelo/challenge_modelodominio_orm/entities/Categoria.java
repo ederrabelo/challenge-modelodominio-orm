@@ -59,7 +59,6 @@ public class Categoria {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         return result;
     }
 
@@ -76,11 +75,6 @@ public class Categoria {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (descricao == null) {
-            if (other.descricao != null)
-                return false;
-        } else if (!descricao.equals(other.descricao))
             return false;
         return true;
     }
