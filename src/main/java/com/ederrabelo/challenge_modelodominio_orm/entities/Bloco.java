@@ -1,36 +1,43 @@
 package com.ederrabelo.challenge_modelodominio_orm.entities;
 
-import java.util.List;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_bloco")
+public class Bloco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "TEXT")
-    private String descricao;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant inicio;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Atividade> atividades;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant fim;
 
-    public Categoria() {
+    @ManyToOne
+    @JoinColumn(name = "atividade_id")
+    private Atividade atividade;
+
+    public Bloco() {
 
     }
 
-    public Categoria(Integer id, String descricao) {
+    public Bloco(Integer id, Instant inicio, Instant fim, Atividade atividade) {
         this.id = id;
-        this.descricao = descricao;
+        this.inicio = inicio;
+        this.fim = fim;
+        this.atividade = atividade;
     }
 
     public Integer getId() {
@@ -41,17 +48,28 @@ public class Categoria {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Instant getInicio() {
+        return inicio;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setInicio(Instant inicio) {
+        this.inicio = inicio;
     }
 
-    
-    public List<Atividade> getAtividades() {
-        return atividades;
+    public Instant getFim() {
+        return fim;
+    }
+
+    public void setFim(Instant fim) {
+        this.fim = fim;
+    }
+
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
     }
 
     @Override
@@ -59,7 +77,6 @@ public class Categoria {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
         return result;
     }
 
@@ -71,23 +88,19 @@ public class Categoria {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Categoria other = (Categoria) obj;
+        Bloco other = (Bloco) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (descricao == null) {
-            if (other.descricao != null)
-                return false;
-        } else if (!descricao.equals(other.descricao))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Categoria [id=" + id + ", descricao=" + descricao + "]";
+        return "Bloco [id=" + id + ", inicio=" + inicio + ", fim=" + fim + ", atividade=" + atividade + "]";
     }
+    
 
 }
